@@ -3,10 +3,10 @@ Instagram Follower - special for Anna Wasal
 
 # Introduction
 
-Described URL `http://instagram.com/ploterline/followers/` endpoint isn't really easy-to-use RESTful endpoint 
-Instagram fetches information with AJAXs after user click the Followers button.
-Quick research did not allow me to find a way to get that information without using Selenium, which can load/render 
-the javascript that displays the followers to the user. So, we have a Selenium-based solution which mocks human behavior, including random pauses between actions.
+Described URL `http://instagram.com/ploterline/followers/` endpoint isn't really easy-to-use RESTful endpoint. 
+Instagram fetches information with AJAXs after user click the `Followers` button.
+Quick research did not allow me to find a way to get that information without using Selenium, which can load and render 
+the javascript that displays the followers to the user. So, we have a Selenium-based solution which mocks human behavior, including random pauses between actions (Which ca be configurable, of course).
 For such a solution Google Chrome Browser is required
 
 ## Requirements
@@ -35,6 +35,10 @@ https://chromedriver.storage.googleapis.com/index.html?path=2.34/
 ```
 Unzip downloaded file before usage. However, Llinux 64-bit version is already included into this repo, so you may not need to download your driver.
 
+Clone Instagram-follower
+```bash
+git clone https://github.com/sunsingerus/instagram-follower
+```
 
 ## Usage
 
