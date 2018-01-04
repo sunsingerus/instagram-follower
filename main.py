@@ -26,6 +26,9 @@ class InstagramFollower:
     account = None
     max_followers_num = 10
     max_clicks_num = 10
+    follow_status_report_file = None
+    unfollow_status_report_file = None
+    unfollow_list_file = None
 
     def __init__(
         self,
@@ -35,7 +38,10 @@ class InstagramFollower:
             password,
             account,
             max_followers_num=10,
-            max_clicks_num=10
+            max_clicks_num=10,
+            follow_status_report_file=None,
+            unfollow_status_report_file=None,
+            unfollow_list_file=None,
     ):
         """
         InstagramFollower constructor
@@ -47,6 +53,10 @@ class InstagramFollower:
         :param account: Instagram account to process followers
         :param max_followers_num: Max follswers number to fetch
         :param max_clicks_num: Max clicks num to perform on Follow/Following button
+        :param follow_status_report_file: CSV file to write follos status report to
+        :param unfollow_status_report_file: CSV file to write unfollow status report to
+        :param unfollow_list_file: CSV file to read unfollow users list
+
         """
         options = webdriver.ChromeOptions()
         options.binary_location = chrome_location
@@ -58,6 +68,9 @@ class InstagramFollower:
         self.password = password
         self.max_followers_num = max_followers_num
         self.max_clicks_num = max_clicks_num
+        self.follow_status_report_file = follow_status_report_file
+        self.unfollow_status_report_file = unfollow_status_report_file
+        self.unfollow_list_file = unfollow_list_file
 
     def login(self):
         """
@@ -368,16 +381,16 @@ class InstagramFollower:
             )
 
             # Report follow status
-            InstagramFollower.export_statuses_to_csv("follow_status_for_{}.csv".format(self.account), statuses)
+            InstagramFollower.export_statuses_to_csv(self.follow_status_report_file, statuses)
 
             # Read list of users to unfollow
-            usernames_to_unfollow = InstagramFollower.import_unfollow_users_from_csv("unfollow.csv")
+            usernames_to_unfollow = InstagramFollower.import_unfollow_users_from_csv(self.unfollow_list_file)
 
             # Click unfollow
             statuses = self.unfollow(followers_elements, usernames_to_unfollow)
 
             # And report unfollow status
-            InstagramFollower.export_statuses_to_csv("unfollow_status_for_{}.csv".format(self.account), statuses)
+            InstagramFollower.export_statuses_to_csv(self.unfollow_status_report_file, statuses)
         finally:
             self.driver.quit()
 
@@ -417,6 +430,24 @@ if __name__ == "__main__":
         help='Instagram password to login. Default - not set'
     )
     argparser.add_argument(
+        '--follow-status-report-file',
+        type=str,
+        default=None,
+        help='CSV file to report follow status to'
+    )
+    argparser.add_argument(
+        '--unfollow-status-report-file',
+        type=str,
+        default=None,
+        help='CSV file to report unfollow status to'
+    )
+    argparser.add_argument(
+        '--unfollow-list-file',
+        type=str,
+        default='unfollow.csv',
+        help='CSV file where to read users from. Default - unfowllow.csv'
+    )
+    argparser.add_argument(
         '--max-followers-num',
         type=int,
         default=10,
@@ -438,6 +469,9 @@ if __name__ == "__main__":
     password = args.password
     max_followers_num = args.max_followers_num
     max_clicks_num = args.max_clicks_num
+    follow_status_report_file = "follow_status_for_{}.csv".format(account) if args.follow_status_report_file is None else args.follow_status_report_file
+    unfollow_status_report_file = "unfollow_status_for_{}.csv".format(account) if args.unfollow_status_report_file is None else args.unfollow_status_report_file
+    unfollow_list_file = "unfollow.csv" if args.unfollow_list_file is None else args.unfollow_list_file
 
     exit = False
     if not chrome_location:
@@ -475,6 +509,9 @@ if __name__ == "__main__":
         username=username,
         password=password,
         max_followers_num=max_followers_num,
-        max_clicks_num=max_clicks_num
+        max_clicks_num=max_clicks_num,
+        follow_status_report_file=follow_status_report_file,
+        unfollow_status_report_file=unfollow_status_report_file,
+        unfollow_list_file=unfollow_list_file,
     )
     follower.run()

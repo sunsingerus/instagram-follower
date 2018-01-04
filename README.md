@@ -52,40 +52,54 @@ Tool writes CSV log into `unfollow_status_for_ACCOUNT_NAME.csv` file for clicked
 Tool reads list of usernames to unfollow from `unfollow.csv` file
 
 ### Available Options
-  * --chrome-location
+  * `--chrome-location`
         default="/usr/bin/google-chrome-stable",
         Path to Chrome. Default - "/usr/bin/google-chrome-stable"
         Rationale - Chrome Browser can be located in dirrent palces
         
-  * --chrome-driver-location
+  * `--chrome-driver-location`
         default="./chromedriver",
         Path to Chrome Driver. Default - "./chromedriver"
         Rationale - Chrome Browser Driver can be located in dirrent palces
 
-  * --account'
+  * `--account`
         default="emilia_clarke",
         Account to process followers. Default - "emilia_clarke"
         Rationale - we need to know on which account to process followers
         
-  * --username
+  * `--username`
         default=None,
         Instagram username to login. Default - not set
         Rationale - Instagram requires username in order to login
         
-  * --password
+  * `--password`
         default=None,
         Instagram password to login. Default - not set
         Rationale - Instagram requires password in order to login
         
-  * --max-followers-num
+  * `--follow-status-report-file`
+        default=None,
+        CSV file to report follow status to
+        Rationale - we'd like to have control over report files
+
+  * `--unfollow-status-report-file`
+        default=None
+        CSV file to report unfollow status to
+        Rationale - we'd like to have control over report files
+
+  * `--unfollow-list-file`
+        default='unfollow.csv'
+        CSV file where to read users from. Default - unfowllow.csv
+        Rationale - we'd like to have control where to read list of unfollowed users from
+    
+  * `--max-followers-num`
         type=int,
         default=10,
         Max number of followers to fetch. Default - 10
         Rationale - account can have millions of followers. We need to have control over the process
         
-  * --max-clicks-num
+  * `--max-clicks-num`
         type=int,
         default=10,
         Max clicks on Follow/Following to do. Default - 10
         Rationale - account can have millions of followers. We need to have control over the process
-
